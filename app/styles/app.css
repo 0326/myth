@@ -1,0 +1,112 @@
+/* ============================================================
+   山海 — shared component layer
+   ============================================================ */
+
+/* ---------------- container ---------------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--s6)}
+@media(max-width:720px){.wrap{padding:0 var(--s5)}}
+
+/* ---------------- top nav ---------------- */
+.nav{
+  position:sticky;top:0;z-index:60;height:var(--nav-h);
+  display:flex;align-items:center;
+  background:color-mix(in srgb,var(--ink-850) 86%,transparent);
+  backdrop-filter:blur(14px) saturate(1.2);
+  border-bottom:1px solid var(--ink-line);
+}
+.nav .wrap{display:flex;align-items:center;gap:var(--s6);width:100%}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.04em}
+.brand .seal{
+  width:30px;height:30px;flex:none;border-radius:5px;
+  display:grid;place-items:center;
+  background:var(--cinnabar);color:var(--paper);
+  font-family:var(--f-serif);font-weight:900;font-size:17px;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);
+}
+.brand b{font-size:18px}
+.brand span{font-family:var(--f-latin);font-size:11px;letter-spacing:.28em;color:var(--t-lo);text-transform:uppercase}
+.nav-links{display:flex;gap:var(--s2);margin-left:var(--s4)}
+.nav-links a{
+  padding:8px 14px;border-radius:var(--r-sm);font-size:14px;font-weight:500;
+  color:var(--t-mid);transition:.15s;
+}
+.nav-links a:hover{color:var(--t-hi);background:var(--ink-750)}
+.nav-links a.active{color:var(--gold-bright);background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:var(--s3)}
+
+/* language toggle */
+.lang-toggle{
+  display:inline-flex;border:1px solid var(--ink-line);border-radius:999px;overflow:hidden;
+  font-family:var(--f-latin);font-size:12px;font-weight:700;letter-spacing:.05em;
+}
+.lang-toggle button{
+  background:transparent;color:var(--t-lo);border:0;padding:6px 13px;transition:.15s;
+}
+.lang-toggle button.on{background:var(--gold);color:var(--ink-900)}
+
+/* ---------------- buttons ---------------- */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 22px;border-radius:var(--r-md);border:1px solid transparent;
+  font-weight:700;font-size:14px;letter-spacing:.02em;transition:.18s;white-space:nowrap;
+}
+.btn-gold{background:var(--gold);color:var(--ink-900)}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-1px)}
+.btn-ghost{border-color:var(--ink-line);color:var(--t-hi);background:transparent}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright)}
+.btn-red{background:var(--cinnabar);color:var(--paper)}
+.btn-red:hover{background:var(--cinnabar-bright)}
+
+/* ---------------- chips / tags ---------------- */
+.chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 11px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em;
+  border:1px solid var(--ink-line);color:var(--t-mid);background:var(--ink-800);
+}
+.chip .dot{width:7px;height:7px;border-radius:50%}
+.omen-ji{color:var(--azure-bright)}.omen-ji .dot{background:var(--omen-ji)}
+.omen-xiong{color:var(--cinnabar-bright)}.omen-xiong .dot{background:var(--omen-xiong)}
+.omen-zhong{color:var(--gold-bright)}.omen-zhong .dot{background:var(--omen-zhong)}
+
+/* ---------------- section heading ---------------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-latin);font-size:12px;font-weight:700;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:var(--s4);
+}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--gold)}
+.h-sec{font-size:clamp(28px,4vw,46px);font-weight:900;line-height:1.05;letter-spacing:-.01em}
+.h-sec .cn{font-family:var(--f-sans)}
+
+/* ---------------- footer ---------------- */
+.foot{border-top:1px solid var(--ink-line);background:var(--ink-900);margin-top:var(--s10)}
+.foot .wrap{padding-top:var(--s8);padding-bottom:var(--s7);display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--s6)}
+.foot h4{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--t-lo);margin-bottom:var(--s4);font-family:var(--f-latin)}
+.foot a{display:block;color:var(--t-mid);font-size:14px;padding:5px 0;transition:.15s}
+.foot a:hover{color:var(--gold-bright)}
+.foot-legal{border-top:1px solid var(--ink-700);color:var(--t-faint);font-size:12px}
+.foot-legal .wrap{display:flex;justify-content:space-between;padding:var(--s4) var(--s6);gap:var(--s4);flex-wrap:wrap}
+@media(max-width:720px){.foot .wrap{grid-template-columns:1fr 1fr}}
+
+/* ---------------- seal stamp ---------------- */
+.stamp{
+  font-family:var(--f-serif);font-weight:900;color:var(--paper);
+  background:var(--cinnabar);display:grid;place-content:center;text-align:center;
+  line-height:1;letter-spacing:.05em;border-radius:4px;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.16);
+}
+
+/* ---------------- utility ---------------- */
+.mono{font-family:var(--f-mono)}
+.latin{font-family:var(--f-latin)}
+.serif{font-family:var(--f-serif)}
+[data-lang-en] .zh-only{display:none}
+[data-lang-zh] .en-only{display:none}
+/* transform-only entrance: content is fully visible at rest (no opacity:0),
+   so SSR first paint / no-JS / reduced-motion never shows a blank. */
+.fade-up{transform:translateY(22px);transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.fade-up.in{transform:none}
+@media (prefers-reduced-motion: reduce){
+  .fade-up{transform:none;transition:none}
+}
+.scrollbar-thin{scrollbar-width:thin;scrollbar-color:var(--ink-600) transparent}

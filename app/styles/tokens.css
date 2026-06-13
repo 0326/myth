@@ -1,0 +1,92 @@
+/* ============================================================
+   山海 · 中国神话知识引擎 — Design Tokens
+   国潮 / dark ground + 鎏金 / 石青 / 丹红 + paper reading surfaces
+   ============================================================ */
+:root{
+  /* ---- ground / ink ---- */
+  --ink-900:#0b0f0d;      /* deepest */
+  --ink-850:#0e1311;      /* page ground */
+  --ink-800:#121916;      /* raised */
+  --ink-750:#161d1a;      /* card */
+  --ink-700:#1c2521;      /* card hover / border base */
+  --ink-600:#2a342f;      /* hairline on dark */
+  --ink-line:rgba(201,162,74,.18); /* gold hairline */
+
+  /* ---- paper (reading surfaces) ---- */
+  --paper:#efe7d8;
+  --paper-2:#e7dcc8;
+  --paper-ink:#241f18;
+  --paper-ink-2:#5b5142;
+
+  /* ---- 国潮 accents (shared chroma family) ---- */
+  --gold:#c9a24a;         /* 鎏金 */
+  --gold-bright:#e3c477;
+  --gold-deep:#9c7a2f;
+  --cinnabar:#c83f33;     /* 丹红 */
+  --cinnabar-bright:#e0584a;
+  --azure:#2f6f7a;        /* 石青 */
+  --azure-bright:#4f97a2;
+  --jade:#3a6b5f;         /* 黛绿 */
+  --plum:#7a3b54;         /* 黛紫 */
+
+  /* ---- text on dark ---- */
+  --t-hi:#f4efe4;
+  --t-mid:#c8c0ae;
+  --t-lo:#8d8775;
+  --t-faint:#5f5b4f;
+
+  /* ---- omen semantics ---- */
+  --omen-ji:#3a6b5f;      /* 吉 */
+  --omen-xiong:#c83f33;   /* 凶 */
+  --omen-zhong:#c9a24a;   /* 中/未明 */
+
+  /* ---- type ---- */
+  --f-sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  --f-serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  --f-latin:"Archivo","Noto Sans SC",system-ui,sans-serif;
+  --f-mono:"Space Mono","DM Mono",ui-monospace,monospace;
+
+  /* ---- spacing scale ---- */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
+
+  /* ---- radii / shadow ---- */
+  --r-sm:3px; --r-md:6px; --r-lg:10px;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);
+  --shadow-2:0 8px 30px rgba(0,0,0,.45);
+  --shadow-gold:0 0 0 1px var(--ink-line),0 14px 40px rgba(0,0,0,.5);
+
+  /* ---- layout ---- */
+  --maxw:1240px;
+  --nav-h:64px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:var(--f-sans);
+  background:var(--ink-850);
+  color:var(--t-hi);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--gold);color:var(--ink-900)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3,h4,p{margin:0}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- paper texture (subtle fiber) ---------- */
+.tex-fiber{
+  background-image:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px);
+}
+/* ---------- dark grain ---------- */
+.tex-grain{position:relative}
+.tex-grain::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:3px 3px;mix-blend-mode:overlay;opacity:.5;
+}
