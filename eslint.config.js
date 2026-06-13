@@ -5,7 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-	{ ignores: ["dist"] },
+	{ ignores: ["dist", "build", ".react-router", "worker-configuration.d.ts"] },
 	{
 		extends: [js.configs.recommended, ...tseslint.configs.recommended],
 		files: ["**/*.{ts,tsx}"],
@@ -23,6 +23,14 @@ export default tseslint.config(
 				"warn",
 				{ allowConstantExport: true },
 			],
+		},
+	},
+	{
+		// Route modules legitimately export loader/meta/links beside the
+		// component — that is the React Router contract, not an HMR mistake.
+		files: ["app/routes/**/*.tsx", "app/root.tsx", "app/entry.server.tsx"],
+		rules: {
+			"react-refresh/only-export-components": "off",
 		},
 	},
 );
