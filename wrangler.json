@@ -7,6 +7,23 @@
 	"observability": {
 		"enabled": true
 	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "myth-db",
+			"database_id": "00000000-0000-0000-0000-000000000000",
+			"migrations_dir": "migrations"
+		}
+	],
+	"kv_namespaces": [
+		{
+			"binding": "RATE_LIMIT",
+			"id": "00000000000000000000000000000000"
+		}
+	],
+	"vars": {
+		"API_KEYS": ""
+	},
 	"upload_source_maps": true,
 	"assets": {
 		"directory": "./build/client"

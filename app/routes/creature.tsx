@@ -1,21 +1,24 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/creature";
+import { CreatureCard } from "~/components/CreatureCard";
 import { Footer } from "~/components/Footer";
 import { SealStamp } from "~/components/SealStamp";
 import { ShareCard } from "~/components/ShareCard";
 import { MYTH_CATS, MYTH_OMENS, MYTH_REGIONS } from "~/data/dict";
-import { getCreatureWithNeighbours } from "~/data/repo";
+import { getCreatureWithNeighbours, getRelatedCreatures } from "~/data/repo";
 import { langFromRequest } from "~/i18n/LangContext";
 import { useLang } from "~/i18n/LangContext";
-import { buildMeta, creatureJsonLd } from "~/lib/seo";
+import { breadcrumbJsonLd, buildMeta, creatureJsonLd } from "~/lib/seo";
 
-export async function loader({ params, request }: Route.LoaderArgs) {
-	const result = await getCreatureWithNeighbours(params.id);
+export async function loader({ params, request, context }: Route.LoaderArgs) {
+	const db = context.cloudflare?.env?.DB;
+	const result = await getCreatureWithNeighbours(params.id, db);
 	if (!result) {
 		throw new Response("Creature not found", { status: 404 });
 	}
-	return { lang: langFromRequest(request), url: request.url, ...result };
+	const related = await getRelatedCreatures(result.creature, 4, db);
+	return { lang: langFromRequest(request), url: request.url, related, ...result };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -23,18 +26,31 @@ export function meta({ data }: Route.MetaArgs) {
 	const d = data.creature;
 	const name = data.lang === "zh" ? d.zh : d.en;
 	const description = data.lang === "zh" ? d.bai : d.en_sum;
+	const u = new URL(data.url);
+	const crumb = (label: string, path: string) => ({
+		name: label,
+		url: `${u.origin}${path}`,
+	});
 	return buildMeta({
 		lang: data.lang,
 		url: data.url,
 		title: name,
 		description,
-		jsonLd: creatureJsonLd({
-			name,
-			alternateName: data.lang === "zh" ? d.en : d.zh,
-			description,
-			url: new URL(data.url).href,
-			lang: data.lang,
-		}),
+		image: `/og/creature/${d.id}`,
+		jsonLd: [
+			creatureJsonLd({
+				name,
+				alternateName: data.lang === "zh" ? d.en : d.zh,
+				description,
+				url: u.href,
+				lang: data.lang,
+			}),
+			breadcrumbJsonLd([
+				crumb(data.lang === "zh" ? "首页" : "Home", "/"),
+				crumb(data.lang === "zh" ? "神兽图鉴" : "Bestiary", "/bestiary"),
+				crumb(name, `/creature/${d.id}`),
+			]),
+		],
 	});
 }
 
@@ -60,7 +76,7 @@ function highlight(src: string, names: string[]): ReactNode[] {
 
 export default function CreatureDetail({ loaderData }: Route.ComponentProps) {
 	const { t, lang } = useLang();
-	const { creature: d, prev, next } = loaderData;
+	const { creature: d, prev, next, related } = loaderData;
 	const cat = MYTH_CATS[d.cat];
 	const reg = MYTH_REGIONS[d.region];
 	const om = MYTH_OMENS[d.omen];
@@ -189,6 +205,24 @@ export default function CreatureDetail({ loaderData }: Route.ComponentProps) {
 					</aside>
 				</div>
 			</main>
+
+			{related.length > 0 && (
+				<section className="grid-wrap" style={{ paddingTop: 0 }}>
+					<div className="wrap">
+						<div className="block-h" style={{ marginBottom: "var(--s5)" }}>
+							<span className="zh" style={{ fontSize: 18 }}>
+								{t("同出没地", "From the same region")}
+							</span>
+							<span className="en">{MYTH_REGIONS[d.region][lang]}</span>
+						</div>
+						<div className="bgrid">
+							{related.map((rc) => (
+								<CreatureCard key={rc.id} d={rc} lang={lang} />
+							))}
+						</div>
+					</div>
+				</section>
+			)}
 
 			<Footer />
 		</>

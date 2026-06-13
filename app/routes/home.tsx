@@ -9,11 +9,11 @@ import { langFromRequest } from "~/i18n/LangContext";
 import { useLang } from "~/i18n/LangContext";
 import { buildMeta, SITE_NAME_EN, SITE_NAME_ZH } from "~/lib/seo";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
 	return {
 		lang: langFromRequest(request),
 		url: request.url,
-		featured: await listFeatured(),
+		featured: await listFeatured(context.cloudflare?.env?.DB),
 	};
 }
 
@@ -169,18 +169,18 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 							</p>
 							<span className="go">{t("探索图谱", "Explore")} →</span>
 						</Link>
-						<Link className="pillar" to="/bestiary">
+						<Link className="pillar" to="/atlas">
 							<span className="pglyph">图</span>
 							<span className="pidx">03 / {t("地图", "Atlas")}</span>
 							<h3>{t("地理互动地图", "Interactive Atlas")}</h3>
-							<div className="pen">COMING SOON</div>
+							<div className="pen">INTERACTIVE ATLAS</div>
 							<p>
 								{t(
-									"山经五千余山、海经方国与异兽分布的可交互图层。规划中——先从图鉴与图谱跑通数据底座。",
-									"Interactive layers for the 5,000+ mountains and the lands beyond the seas. In planning — built on the same data spine.",
+									"八方异兽分布的可交互地图：南/西/北/东/中山经与海外、海内、大荒，点击神兽进入词条。",
+									"An interactive map of where the creatures roam across the eight classic regions — click any beast to open its entry.",
 								)}
 							</p>
-							<span className="go">{t("即将上线", "Soon")} →</span>
+							<span className="go">{t("打开地图", "Open the atlas")} →</span>
 						</Link>
 					</div>
 				</div>

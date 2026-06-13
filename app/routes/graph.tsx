@@ -4,8 +4,8 @@ import { getGraph } from "~/data/repo";
 import { langFromRequest } from "~/i18n/LangContext";
 import { buildMeta } from "~/lib/seo";
 
-export async function loader({ request }: Route.LoaderArgs) {
-	const { nodes, links } = await getGraph();
+export async function loader({ request, context }: Route.LoaderArgs) {
+	const { nodes, links } = await getGraph(context.cloudflare?.env?.DB);
 	const focus = new URL(request.url).searchParams.get("focus");
 	return { lang: langFromRequest(request), url: request.url, nodes, links, focus };
 }

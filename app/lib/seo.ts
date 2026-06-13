@@ -17,8 +17,8 @@ interface MetaInput {
 	lang: Lang;
 	/** absolute current request URL (from the loader: request.url) */
 	url: string;
-	/** optional schema.org object rendered as <script type="application/ld+json"> */
-	jsonLd?: Record<string, unknown>;
+	/** optional schema.org object(s) rendered as <script type="application/ld+json"> */
+	jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 	/** optional social share image (absolute or root-relative) */
 	image?: string;
 }
@@ -67,9 +67,44 @@ export function buildMeta({
 		);
 	}
 	if (jsonLd) {
-		tags.push({ "script:ld+json": jsonLd });
+		for (const block of Array.isArray(jsonLd) ? jsonLd : [jsonLd]) {
+			tags.push({ "script:ld+json": block });
+		}
 	}
 	return tags;
+}
+
+/** schema.org BreadcrumbList from [{name, url}] segments. */
+export function breadcrumbJsonLd(
+	items: { name: string; url: string }[],
+): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		itemListElement: items.map((it, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			name: it.name,
+			item: it.url,
+		})),
+	};
+}
+
+/** schema.org ItemList for a collection page (the bestiary grid). */
+export function itemListJsonLd(
+	items: { name: string; url: string }[],
+): Record<string, unknown> {
+	return {
+		"@context": "https://schema.org",
+		"@type": "ItemList",
+		numberOfItems: items.length,
+		itemListElement: items.map((it, i) => ({
+			"@type": "ListItem",
+			position: i + 1,
+			name: it.name,
+			url: it.url,
+		})),
+	};
 }
 
 /** schema.org FictionalCharacter node for a creature entry. */

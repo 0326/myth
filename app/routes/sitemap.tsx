@@ -1,11 +1,11 @@
 import type { Route } from "./+types/sitemap";
 import { listCreatures } from "~/data/repo";
 
-const STATIC_PATHS = ["/", "/bestiary", "/graph"];
+const STATIC_PATHS = ["/", "/bestiary", "/graph", "/atlas", "/quiz", "/about"];
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
 	const origin = new URL(request.url).origin;
-	const creatures = await listCreatures();
+	const creatures = await listCreatures(context.cloudflare?.env?.DB);
 	const paths = [...STATIC_PATHS, ...creatures.map((c) => `/creature/${c.id}`)];
 
 	const urls = paths

@@ -8,9 +8,9 @@ import { listCreatures } from "~/data/repo";
 import type { Creature, CreatureCat, CreatureRegion, Omen } from "~/data/types";
 import { langFromRequest } from "~/i18n/LangContext";
 import { useLang } from "~/i18n/LangContext";
-import { buildMeta } from "~/lib/seo";
+import { buildMeta, itemListJsonLd } from "~/lib/seo";
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
 	const url = new URL(request.url);
 	const p = url.searchParams;
 	const valid = <T extends string>(vals: string[], dict: Record<string, unknown>) =>
@@ -18,7 +18,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 	return {
 		lang: langFromRequest(request),
 		url: request.url,
-		creatures: await listCreatures(),
+		creatures: await listCreatures(context.cloudflare?.env?.DB),
 		initial: {
 			q: p.get("q") ?? "",
 			cats: valid<CreatureCat>(p.getAll("cat"), MYTH_CATS),
@@ -31,14 +31,21 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export function meta({ data }: Route.MetaArgs) {
 	if (!data) return [];
+	const origin = new URL(data.url).origin;
 	return buildMeta({
 		lang: data.lang,
 		url: data.url,
 		title: data.lang === "zh" ? "神兽图鉴" : "The Bestiary",
 		description:
 			data.lang === "zh"
-				? "32 只山海异兽的可检索结构化图鉴：按分类、出没地、吉凶多维筛选，附《山海经》原文与白话双语。"
-				: "A searchable, structured bestiary of 32 Shan Hai Jing creatures — filter by class, habitat and omen, with original text and bilingual notes.",
+				? `${data.creatures.length} 只山海异兽的可检索结构化图鉴：按分类、出没地、吉凶多维筛选，附《山海经》原文与白话双语。`
+				: `A searchable, structured bestiary of ${data.creatures.length} Shan Hai Jing creatures — filter by class, habitat and omen, with original text and bilingual notes.`,
+		jsonLd: itemListJsonLd(
+			data.creatures.map((c) => ({
+				name: data.lang === "zh" ? c.zh : c.en,
+				url: `${origin}/creature/${c.id}`,
+			})),
+		),
 	});
 }
 

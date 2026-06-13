@@ -26,7 +26,12 @@ export function Nav() {
 					<NavLink to="/graph" className={linkCls}>
 						{t("关系图谱", "Genealogy")}
 					</NavLink>
-					<Link to="/#about">{t("关于", "About")}</Link>
+					<NavLink to="/atlas" className={linkCls}>
+						{t("地图", "Atlas")}
+					</NavLink>
+					<NavLink to="/about" className={linkCls}>
+						{t("关于", "About")}
+					</NavLink>
 				</div>
 				<div className="nav-right">
 					<Link className="btn btn-ghost" to="/bestiary" style={{ padding: "9px 16px" }}>

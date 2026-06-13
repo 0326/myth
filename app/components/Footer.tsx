@@ -32,7 +32,8 @@ export function Footer() {
 					<h4>Explore</h4>
 					<Link to="/bestiary">{t("神兽图鉴", "Bestiary")}</Link>
 					<Link to="/graph">{t("关系图谱", "Genealogy")}</Link>
-					<Link to="/#about">{t("地理地图（规划中）", "Atlas (soon)")}</Link>
+					<Link to="/atlas">{t("地理互动地图", "Interactive Atlas")}</Link>
+					<Link to="/quiz">{t("你是哪只神兽", "Which creature are you")}</Link>
 				</div>
 				<div>
 					<h4>Sources</h4>
@@ -46,7 +47,7 @@ export function Footer() {
 					>
 						{t("公共领域古图", "Public-domain art")}
 					</a>
-					<Link to="/#about">{t("数据与版权说明", "Data & licensing")}</Link>
+					<Link to="/about">{t("数据与版权说明", "Data & licensing")}</Link>
 				</div>
 			</div>
 			<div className="foot-legal">
