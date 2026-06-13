@@ -92,25 +92,54 @@ function rowToNode(r: NodeRow): GraphNode {
 	};
 }
 
+/**
+ * Run a D1-backed query, falling back to the local TS data if D1 is absent or
+ * errors (e.g. an unprovisioned binding on a fresh deploy). Keeps the site up
+ * regardless of D1 health; logs once so misconfig is visible.
+ */
+async function withD1<T>(
+	db: D1Database | undefined,
+	query: (db: D1Database) => Promise<T>,
+	fallback: () => T,
+): Promise<T> {
+	if (!db) return fallback();
+	try {
+		return await query(db);
+	} catch (err) {
+		console.error("[repo] D1 query failed, falling back to local data:", err);
+		return fallback();
+	}
+}
+
 // ---- queries ----
 export async function listCreatures(db?: D1Database): Promise<Creature[]> {
-	if (!db) return CREATURES;
-	const { results } = await db
-		.prepare("SELECT * FROM creatures ORDER BY ord")
-		.all<CreatureRow>();
-	return results.map(rowToCreature);
+	return withD1(
+		db,
+		async (d) => {
+			const { results } = await d
+				.prepare("SELECT * FROM creatures ORDER BY ord")
+				.all<CreatureRow>();
+			return results.map(rowToCreature);
+		},
+		() => CREATURES,
+	);
 }
 
 export async function getCreature(
 	id: string,
 	db?: D1Database,
 ): Promise<Creature | undefined> {
-	if (!db) return CREATURES.find((c) => c.id === id);
-	const row = await db
-		.prepare("SELECT * FROM creatures WHERE id = ?")
-		.bind(id)
-		.first<CreatureRow>();
-	return row ? rowToCreature(row) : undefined;
+	return withD1(
+		db,
+		async (d) => {
+			const row = await d
+				.prepare("SELECT * FROM creatures WHERE id = ?")
+				.bind(id)
+				.first<CreatureRow>();
+			return row ? rowToCreature(row) : undefined;
+		},
+		() => CREATURES.find((c) => c.id === id),
+	);
 }
 
 export async function getCreatureWithNeighbours(
@@ -151,17 +180,22 @@ export async function getRelatedCreatures(
 export async function getGraph(
 	db?: D1Database,
 ): Promise<{ nodes: GraphNode[]; links: GraphLink[] }> {
-	if (!db) return { nodes: GRAPH_NODES, links: GRAPH_LINKS };
-	const nodes = await db
-		.prepare("SELECT * FROM graph_nodes ORDER BY ord")
-		.all<NodeRow>();
-	const links = await db
-		.prepare("SELECT s, t, r FROM graph_links ORDER BY id")
-		.all<{ s: string; t: string; r: string }>();
-	return {
-		nodes: nodes.results.map(rowToNode),
-		links: links.results.map((l) => ({ s: l.s, t: l.t, r: l.r as RelKey })),
-	};
+	return withD1(
+		db,
+		async (d) => {
+			const nodes = await d
+				.prepare("SELECT * FROM graph_nodes ORDER BY ord")
+				.all<NodeRow>();
+			const links = await d
+				.prepare("SELECT s, t, r FROM graph_links ORDER BY id")
+				.all<{ s: string; t: string; r: string }>();
+			return {
+				nodes: nodes.results.map(rowToNode),
+				links: links.results.map((l) => ({ s: l.s, t: l.t, r: l.r as RelKey })),
+			};
+		},
+		() => ({ nodes: GRAPH_NODES, links: GRAPH_LINKS }),
+	);
 }
 
 export async function listFeatured(db?: D1Database): Promise<Creature[]> {
