@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router";
 import { useLang } from "~/i18n/LangContext";
 import { LangToggle } from "./LangToggle";
+import { NavSearch } from "./NavSearch";
 
 export function Nav() {
 	const { t } = useLang();
@@ -34,7 +35,8 @@ export function Nav() {
 					</NavLink>
 				</div>
 				<div className="nav-right">
-					<Link className="btn btn-ghost" to="/bestiary" style={{ padding: "9px 16px" }}>
+					<NavSearch />
+					<Link className="btn btn-primary" to="/bestiary" style={{ padding: "9px 16px" }}>
 						{t("进入图鉴", "Explore")}
 					</Link>
 					<LangToggle />

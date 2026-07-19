@@ -11,10 +11,7 @@ export function CreatureCard({ d, lang }: { d: Creature; lang: Lang }) {
 	const tags = (lang === "zh" ? d.tags_zh : d.tags_en) ?? [];
 	return (
 		<Link className="bcard" to={`/creature/${d.id}`}>
-			<div
-				className="bart"
-				style={{ background: `linear-gradient(150deg,${d.color},#0e1311 135%)` }}
-			>
+			<div className="bart">
 				<SealStamp className="bseal">{d.glyph}</SealStamp>
 				<span className="bg">{d.glyph}</span>
 				<span className="ph-note">古图占位 · ART SLOT</span>

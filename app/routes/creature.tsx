@@ -91,16 +91,13 @@ export default function CreatureDetail({ loaderData }: Route.ComponentProps) {
 					<span className="sep">/</span>
 					<Link to="/bestiary">{t("神兽图鉴", "Bestiary")}</Link>
 					<span className="sep">/</span>
-					<span style={{ color: "var(--t-mid)" }}>{lang === "zh" ? d.zh : d.en}</span>
+					<span style={{ color: "var(--paper-ink-2)" }}>{lang === "zh" ? d.zh : d.en}</span>
 				</div>
 			</div>
 
 			<header className="chero">
 				<div className="chero-grid">
-					<div
-						className="cart"
-						style={{ background: `linear-gradient(150deg,${d.color},#0e1311 140%)` }}
-					>
+					<div className="cart">
 						<SealStamp className="cseal">{d.glyph}</SealStamp>
 						<span className="cglyph">{d.glyph}</span>
 						<span className="ph-note">古图占位 · DROP PUBLIC-DOMAIN ART HERE</span>

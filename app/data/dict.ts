@@ -44,9 +44,13 @@ export const GRAPH_GROUPS: Record<GraphGroupKey, GroupLabel> = {
 	chuangshi: { zh: "创世", en: "Primordial", color: "#c9a24a" },
 	sanhuang: { zh: "三皇", en: "Three Sovereigns", color: "#e0584a" },
 	wudi: { zh: "五帝", en: "Five Emperors", color: "#4f97a2" },
+	xia: { zh: "夏代", en: "Xia Dynasty", color: "#8d8775" },
+	fengshen: { zh: "封神", en: "Investiture", color: "#7a3b54" },
+	xiyou: { zh: "西游", en: "Journey West", color: "#c8a24a" },
 	yingxiong: { zh: "英雄", en: "Heroes", color: "#c9a24a" },
 	shen: { zh: "神祇", en: "Deities", color: "#7a3b54" },
 	xiongshen: { zh: "凶神", en: "Fiends", color: "#c83f33" },
+	yaoguai: { zh: "妖怪", en: "Yao & Gui", color: "#6b5b7a" },
 };
 
 export const GRAPH_RELS: Record<RelKey, RelLabel> = {
@@ -55,6 +59,8 @@ export const GRAPH_RELS: Record<RelKey, RelLabel> = {
 	ally: { zh: "盟友", en: "Ally", color: "#4f97a2", dash: true },
 	enemy: { zh: "敌对", en: "Enemy", color: "#c83f33", dash: true },
 	descend: { zh: "传承", en: "Lineage", color: "#8d8775", dash: false },
+	master: { zh: "师徒", en: "Master-Disciple", color: "#7a3b54", dash: true },
+	brother: { zh: "兄弟", en: "Brotherhood", color: "#3a6b5f", dash: true },
 };
 
 export const OMEN_ORDER: Record<Omen, number> = { ji: 0, zhong: 1, xiong: 2 };

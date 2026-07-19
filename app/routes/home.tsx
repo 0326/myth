@@ -68,7 +68,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 									)}
 								</p>
 								<Form className="hero-search" method="get" action="/bestiary" role="search">
-									<span className="serif" style={{ color: "var(--paper)", fontSize: 18 }}>
+									<span className="serif" style={{ color: "var(--vermilion)", fontSize: 18 }}>
 										搜
 									</span>
 									<input
@@ -205,11 +205,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 							const om = MYTH_OMENS[d.omen];
 							return (
 								<Link className="fcard" key={d.id} to={`/creature/${d.id}`}>
-									<div
-										className="fart"
-										style={{ background: `linear-gradient(150deg,${d.color},#0e1311 130%)` }}
-									>
-										<span className="fg">{d.glyph}</span>
+									<div className="fart">
+										<span className="fg" style={{ color: d.color }}>{d.glyph}</span>
 										<span className="ph-note">古图占位 · ART SLOT</span>
 									</div>
 									<div className="fbody">

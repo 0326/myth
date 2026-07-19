@@ -1,92 +1,177 @@
 /* ============================================================
-   山海 · 中国神话知识引擎 — Design Tokens
-   国潮 / dark ground + 鎏金 / 石青 / 丹红 + paper reading surfaces
+   山海 · 中国神话知识引擎 — 新中国风 Design Tokens
+   宣纸为底 · 墨字为骨 · 朱印为魂 · 石青为韵
    ============================================================ */
 :root{
-  /* ---- ground / ink ---- */
-  --ink-900:#0b0f0d;      /* deepest */
-  --ink-850:#0e1311;      /* page ground */
-  --ink-800:#121916;      /* raised */
-  --ink-750:#161d1a;      /* card */
-  --ink-700:#1c2521;      /* card hover / border base */
-  --ink-600:#2a342f;      /* hairline on dark */
-  --ink-line:rgba(201,162,74,.18); /* gold hairline */
+  /* ---- 宣纸底色系统 ---- */
+  --paper-50:#faf6ee;       /* 最浅 宣纸白 */
+  --paper-100:#f5efe1;      /* 宣纸底 */
+  --paper-200:#ede4ce;      /* 宣纸浅纹 */
+  --paper-300:#e2d5b6;      /* 旧纸 */
+  --paper-400:#d4c29a;      /* 藏经纸 */
+  --paper-ink:#2a2318;      /* 墨色正文 */
+  --paper-ink-2:#5a4e3a;    /* 墨色次要 */
+  --paper-ink-3:#8a7d65;    /* 墨色弱化 */
+  --paper-line:rgba(42,35,24,.12);
 
-  /* ---- paper (reading surfaces) ---- */
-  --paper:#efe7d8;
-  --paper-2:#e7dcc8;
-  --paper-ink:#241f18;
-  --paper-ink-2:#5b5142;
+  /* ---- 墨色系统（深色模式/图表背景） ---- */
+  --ink-900:#14120e;
+  --ink-850:#1a1712;
+  --ink-800:#232019;
+  --ink-750:#2c2820;
+  --ink-700:#38332a;
+  --ink-600:#4a4438;
+  --ink-line:rgba(212,178,106,.2);
 
-  /* ---- 国潮 accents (shared chroma family) ---- */
-  --gold:#c9a24a;         /* 鎏金 */
+  /* ---- 五色体系 ---- */
+  --vermilion:#b43a2e;      /* 朱砂 印章色 */
+  --vermilion-deep:#8e2d24;
+  --vermilion-light:#d4584a;
+  --gold:#c8a24a;           /* 鎏金 */
   --gold-bright:#e3c477;
   --gold-deep:#9c7a2f;
-  --cinnabar:#c83f33;     /* 丹红 */
-  --cinnabar-bright:#e0584a;
-  --azure:#2f6f7a;        /* 石青 */
+  --azure:#2f6f7a;          /* 石青 */
   --azure-bright:#4f97a2;
-  --jade:#3a6b5f;         /* 黛绿 */
-  --plum:#7a3b54;         /* 黛紫 */
+  --jade:#3a6b5f;           /* 石绿 */
+  --jade-bright:#5a9688;
+  --ochre:#c48b3a;          /* 赭石 */
 
-  /* ---- text on dark ---- */
+  /* ---- 语义色 ---- */
+  --omen-ji:#3a6b5f;
+  --omen-xiong:#b43a2e;
+  --omen-zhong:#c8a24a;
+
+  /* ---- 文字色（深色底） ---- */
   --t-hi:#f4efe4;
   --t-mid:#c8c0ae;
   --t-lo:#8d8775;
   --t-faint:#5f5b4f;
 
-  /* ---- omen semantics ---- */
-  --omen-ji:#3a6b5f;      /* 吉 */
-  --omen-xiong:#c83f33;   /* 凶 */
-  --omen-zhong:#c9a24a;   /* 中/未明 */
-
-  /* ---- type ---- */
-  --f-sans:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
-  --f-serif:"Noto Serif SC","Songti SC","SimSun",serif;
+  /* ---- 字体 ---- */
+  --f-song:"Noto Serif SC","Songti SC","SimSun","STSong",serif;
+  --f-kai:"KaiTi","STKaiti","Noto Serif SC",serif;
+  --f-hei:"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
   --f-latin:"Archivo","Noto Sans SC",system-ui,sans-serif;
   --f-mono:"Space Mono","DM Mono",ui-monospace,monospace;
+  --f-seal:"Noto Serif SC","SimSun",serif;
 
-  /* ---- spacing scale ---- */
+  /* ---- 间距 ---- */
   --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
   --s6:32px; --s7:48px; --s8:64px; --s9:96px; --s10:128px;
 
-  /* ---- radii / shadow ---- */
-  --r-sm:3px; --r-md:6px; --r-lg:10px;
-  --shadow-1:0 1px 2px rgba(0,0,0,.4);
-  --shadow-2:0 8px 30px rgba(0,0,0,.45);
-  --shadow-gold:0 0 0 1px var(--ink-line),0 14px 40px rgba(0,0,0,.5);
+  /* ---- 圆角 / 阴影 ---- */
+  --r-sm:2px;
+  --r-md:4px;
+  --r-lg:6px;
+  --shadow-ink:0 2px 8px rgba(42,35,24,.08);
+  --shadow-ink-2:0 8px 32px rgba(42,35,24,.12);
+  --shadow-seal:0 2px 6px rgba(180,58,46,.3);
 
-  /* ---- layout ---- */
-  --maxw:1240px;
-  --nav-h:64px;
+  /* ---- 布局 ---- */
+  --maxw:1200px;
+  --nav-h:60px;
 }
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
-  font-family:var(--f-sans);
-  background:var(--ink-850);
-  color:var(--t-hi);
+  font-family:var(--f-hei);
+  background:var(--paper-100);
+  color:var(--paper-ink);
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
+  line-height:1.6;
 }
-::selection{background:var(--gold);color:var(--ink-900)}
+::selection{background:var(--vermilion);color:var(--paper-50)}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
 h1,h2,h3,h4,p{margin:0}
-button{font-family:inherit;cursor:pointer}
+button{font-family:inherit;cursor:pointer;border:0;background:transparent}
 
-/* ---------- paper texture (subtle fiber) ---------- */
-.tex-fiber{
+/* ---------- 宣纸纹理 ---------- */
+.paper-tex{
+  background-color:var(--paper-100);
   background-image:
-    repeating-linear-gradient(0deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px),
-    repeating-linear-gradient(90deg,rgba(0,0,0,.012) 0 1px,transparent 1px 3px);
+    radial-gradient(ellipse at 20% 30%, rgba(200,162,74,.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(180,58,46,.04) 0%, transparent 50%),
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(42,35,24,.015) 2px,
+      rgba(42,35,24,.015) 3px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(42,35,24,.01) 4px,
+      rgba(42,35,24,.01) 5px
+    );
 }
-/* ---------- dark grain ---------- */
-.tex-grain{position:relative}
-.tex-grain::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background-image:radial-gradient(rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:3px 3px;mix-blend-mode:overlay;opacity:.5;
+
+/* ---------- 水墨山影 ---------- */
+.ink-mountain{
+  position:absolute;
+  pointer-events:none;
+  opacity:.08;
+  filter:blur(.5px);
+}
+
+/* ---------- 印章 ---------- */
+.seal{
+  font-family:var(--f-seal);
+  font-weight:900;
+  color:var(--paper-50);
+  background:var(--vermilion);
+  display:grid;
+  place-content:center;
+  text-align:center;
+  line-height:1;
+  letter-spacing:.05em;
+  border-radius:3px;
+  position:relative;
+  box-shadow:
+    inset 0 0 0 2px rgba(255,255,255,.18),
+    0 1px 3px rgba(180,58,46,.3);
+}
+.seal::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:2px;
+}
+
+/* ---------- 竖排文字 ---------- */
+.vertical-rl{
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  letter-spacing:.15em;
+}
+
+/* ---------- 古籍引用框 ---------- */
+.classic-quote{
+  background:var(--paper-50);
+  border:1px solid var(--paper-line);
+  border-left:3px solid var(--vermilion);
+  padding:var(--s5) var(--s6);
+  font-family:var(--f-song);
+  line-height:2;
+}
+
+/* ---------- 分隔线 · 中式纹样 ---------- */
+.ornate-divider{
+  display:flex;
+  align-items:center;
+  gap:var(--s4);
+  color:var(--vermilion);
+}
+.ornate-divider::before,
+.ornate-divider::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--paper-ink-3),transparent);
 }

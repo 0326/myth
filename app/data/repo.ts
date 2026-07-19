@@ -7,8 +7,8 @@
    Route loaders pass `context.cloudflare.env.DB`; the Hono /api uses the same
    functions. Components/loaders never change as the source flips.
    ============================================================ */
-import { CREATURES } from "./creatures";
-import { GRAPH_LINKS, GRAPH_NODES } from "./graph";
+import { creatures } from "./creatures";
+import { graphLinks, graphNodes } from "./graph";
 import type {
 	Creature,
 	CreatureCat,
@@ -48,6 +48,13 @@ interface CreatureRow {
 	ref: string;
 	bai: string;
 	en_sum: string;
+	sources?: string;
+	variants?: string;
+	cultural_zh?: string;
+	cultural_en?: string;
+	related_figures?: string;
+	related_places?: string;
+	appearances?: string;
 }
 
 function rowToCreature(r: CreatureRow): Creature {
@@ -67,6 +74,13 @@ function rowToCreature(r: CreatureRow): Creature {
 		ref: r.ref,
 		bai: r.bai,
 		en_sum: r.en_sum,
+		sources: r.sources ? JSON.parse(r.sources) : [],
+		variants: r.variants ? JSON.parse(r.variants) : [],
+		cultural_zh: r.cultural_zh ?? "",
+		cultural_en: r.cultural_en ?? "",
+		related_figures: r.related_figures ? JSON.parse(r.related_figures) : [],
+		related_places: r.related_places ? JSON.parse(r.related_places) : [],
+		appearances: r.appearances ? JSON.parse(r.appearances) : [],
 	};
 }
 
@@ -121,7 +135,7 @@ export async function listCreatures(db?: D1Database): Promise<Creature[]> {
 				.all<CreatureRow>();
 			return results.map(rowToCreature);
 		},
-		() => CREATURES,
+		() => creatures,
 	);
 }
 
@@ -138,7 +152,7 @@ export async function getCreature(
 				.first<CreatureRow>();
 			return row ? rowToCreature(row) : undefined;
 		},
-		() => CREATURES.find((c) => c.id === id),
+		() => creatures.find((c) => c.id === id),
 	);
 }
 
@@ -194,7 +208,7 @@ export async function getGraph(
 				links: links.results.map((l) => ({ s: l.s, t: l.t, r: l.r as RelKey })),
 			};
 		},
-		() => ({ nodes: GRAPH_NODES, links: GRAPH_LINKS }),
+		() => ({ nodes: graphNodes, links: graphLinks }),
 	);
 }
 
